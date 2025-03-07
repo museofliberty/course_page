@@ -5,6 +5,8 @@ import { PaymentService } from '@/server/services/payment.service';
 import { sendEmail } from '@/lib/email';
 import { validateEmail, validatePhone, validateName } from '@/server/utils/validation';
 
+export const maxDuration = 60; // Set maximum duration to 60 seconds
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -32,8 +34,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // Connect to database
-    await connectToDatabase();
+    // Connect to database with timeout
+    const dbPromise = connectToDatabase();
+    const dbTimeout = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Database connection timeout')), 5000)
+    );
+    
+    await Promise.race([dbPromise, dbTimeout]);
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -53,12 +60,16 @@ export async function POST(request: Request) {
       status: 'pending'
     });
 
-    // Create Razorpay order
-    const amount = 599; // ₹599
-    const order = await PaymentService.createOrder(amount);
+    // Create Razorpay order with timeout
+    const orderPromise = PaymentService.createOrder(599);
+    const orderTimeout = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Order creation timeout')), 5000)
+    );
+    
+    const order = await Promise.race([orderPromise, orderTimeout]);
 
-    // Send welcome email
-    await sendEmail({
+    // Send welcome email (non-blocking)
+    sendEmail({
       to: email,
       subject: 'Welcome to Mutual Fund Masterclass',
       html: `
@@ -68,6 +79,9 @@ export async function POST(request: Request) {
         <p>Please complete your payment to access the course.</p>
         <p>Best regards,<br>Mutual Fund Masterclass Team</p>
       `
+    }).catch(error => {
+      console.error('Failed to send welcome email:', error);
+      // Don't throw error, as email sending is not critical
     });
 
     return NextResponse.json({
@@ -81,7 +95,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(
-      { error: 'Registration failed' },
+      { error: error instanceof Error ? error.message : 'Registration failed' },
       { status: 500 }
     );
   }
