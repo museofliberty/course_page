@@ -71,62 +71,88 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative py-12 lg:py-20 overflow-hidden">
+      <section className="relative py-8 lg:py-16 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
               {/* Left Content */}
-              <div className="w-full lg:w-1/2 text-center lg:text-left">
-                <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6">
-                  Master Mutual Fund<br className="hidden lg:block" /> 
-                  Investing in Malayalam
-                </h1>
-                <p className="text-lg lg:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0">
-                  Join our comprehensive masterclass and learn how to build wealth through mutual funds. Live sessions in Malayalam.
+              <div className="w-full lg:w-1/2 text-left space-y-6">
+                {/* Small heading above main title */}
+                {/* <p className="text-gray-600 text-lg">
+                  Wealth Creation Simplified for the Common Man!
+                </p> */}
+
+                {/* Main heading with mixed colors */}
+                <div className="space-y-1">
+                  <h1 className="text-3xl lg:text-4xl font-bold">
+                    <span className="text-[#00D066]">Unlock</span> Smart Investing
+                  </h1>
+                  <h1 className="text-3xl lg:text-4xl font-bold">
+                  Secrets Through  Top 
+                  </h1>
+                  <h1 className="text-3xl lg:text-4xl font-bold">
+                   <span className="text-[#00D066]">Mutual Funds</span> – Live Webinar
+                  </h1>
+                 
+                </div>
+
+                {/* Subheading */}
+                <p className="text-gray-600 text-lg max-w-xl">
+                  Transform Your Financial Future with India's Leading Finance Educator: 
+                  <span className="font-semibold text-gray-800"> Nithin</span>
                 </p>
-                <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+
+                {/* CTA Button */}
+                <div className="flex items-center gap-4">
                   <Button 
                     variant="primary"
-                    className="w-full sm:w-auto px-8 py-4 text-lg"
+                    className="px-8 py-3 text-base bg-[#00D066] hover:bg-[#00B056] rounded-md"
                     onClick={() => setShowModal(true)}
                   >
                     Join Now
                   </Button>
-                  <p className="text-gray-500 text-sm">
-                    Limited seats available
-                  </p>
                 </div>
-                
-                {/* Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-12 text-center lg:text-left">
+
+                {/* Stats in a row */}
+                <div className="grid grid-cols-3 gap-6 mt-8">
                   <div>
-                    <h3 className="text-3xl lg:text-4xl font-bold text-green-600">1000+</h3>
-                    <p className="text-gray-600 text-sm lg:text-base">Students Trained</p>
+                    <h3 className="text-2xl font-bold text-[#00D066]">1000+</h3>
+                    <p className="text-gray-600 text-sm">Students Trained</p>
                   </div>
                   <div>
-                    <h3 className="text-3xl lg:text-4xl font-bold text-green-600">₹10Cr+</h3>
-                    <p className="text-gray-600 text-sm lg:text-base">Portfolio Managed</p>
+                    <h3 className="text-2xl font-bold text-[#00D066]">₹10Cr+</h3>
+                    <p className="text-gray-600 text-sm">Portfolio Managed</p>
                   </div>
-                  <div className="col-span-2 sm:col-span-1">
-                    <h3 className="text-3xl lg:text-4xl font-bold text-green-600">7+</h3>
-                    <p className="text-gray-600 text-sm lg:text-base">Years Experience</p>
+                  <div>
+                    <h3 className="text-2xl font-bold text-[#00D066]">7+</h3>
+                    <p className="text-gray-600 text-sm">Years Experience</p>
                   </div>
                 </div>
               </div>
 
               {/* Right Image */}
               <div className="w-full lg:w-1/2">
-                <div className="relative">
-                  <div className="relative aspect-[4/3] lg:aspect-square max-w-[500px] mx-auto">
+                <div className="relative w-full max-w-[500px] mx-auto">
+                  <div className="relative aspect-square">
                     <Image
                       src="/avatarImages/heroImg1.png"
-                      alt="Mutual Fund Masterclass"
+                      alt="Finance Educator"
                       fill
                       style={{ objectFit: 'contain' }}
                       className="z-10"
                       priority
                     />
-                    <div className="absolute inset-0 bg-green-100/50 rounded-full z-0 transform -translate-x-4 translate-y-4"></div>
+                    {/* Background circle */}
+                    <div className="absolute inset-0 bg-[#E8F5E9] rounded-full z-0"></div>
+                    {/* Decorative elements */}
+                    <div className="absolute top-4 right-4 w-20 h-20 bg-yellow-100/50 rounded-full"></div>
+                    <div className="absolute bottom-4 left-4 w-16 h-16 bg-green-100/50 rounded-full"></div>
+                    {/* Chart icon */}
+                    {/* <div className="absolute top-8 right-8 bg-white p-2 rounded-lg shadow-md z-20">
+                      <svg className="w-6 h-6 text-[#00D066]" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                      </svg>
+                    </div> */}
                   </div>
                 </div>
               </div>

@@ -36,12 +36,12 @@ export default function Header() {
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="text-xl font-bold text-green-600">
-              Mutual Fund Masterclass
+            Marketvisa
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {navLinks.map(({ id, label }) => (
+              {/* {navLinks.map(({ id, label }) => (
                 <button
                   key={label}
                   onClick={() => scrollToSection(id)}
@@ -49,7 +49,7 @@ export default function Header() {
                 >
                   {label}
                 </button>
-              ))}
+              ))} */}
               <Button 
                 onClick={() => setShowModal(true)}
                 className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"

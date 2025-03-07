@@ -52,9 +52,9 @@ export default function Mentor() {
                   />
                   <div className="absolute inset-0 bg-green-100 rounded-full z-0 transform -translate-x-3 translate-y-3 sm:-translate-x-4 sm:translate-y-4"></div>
                 </div>
-                <div className="absolute top-4 right-4 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm">
+                {/* <div className="absolute top-4 right-4 bg-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm">
                   <p className="text-xs sm:text-sm font-medium">Best Finance Educator</p>
-                </div>
+                </div> */}
               </div>
             </div>
 
