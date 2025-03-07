@@ -9,26 +9,27 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const headerOffset = 80;
-      const elementPosition = section.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  // const scrollToSection = (sectionId: string) => {
+  //   const section = document.getElementById(sectionId);
+  //   if (section) {
+  //     const headerOffset = 80;
+  //     const elementPosition = section.getBoundingClientRect().top;
+  //     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      setIsMenuOpen(false);
-    }
-  };
+  //     window.scrollTo({
+  //       top: offsetPosition,
+  //       behavior: 'smooth'
+  //     });
+  //     setIsMenuOpen(false);
+  //   }
+  // };
 
   const navLinks = [
     { id: 'join', label: 'Workshop Details' },
     { id: 'benefits', label: 'Benefits' },
     { id: 'courses', label: 'Course Details' },
   ];
+  console.log(isMenuOpen,"xxx")
 
   return (
     <>
@@ -44,7 +45,7 @@ export default function Header() {
               {/* {navLinks.map(({ id, label }) => (
                 <button
                   key={label}
-                  onClick={() => scrollToSection(id)}
+                  // onClick={() => scrollToSection(id)}
                   className="text-gray-600 hover:text-green-600 transition-colors cursor-pointer"
                 >
                   {label}
@@ -59,13 +60,21 @@ export default function Header() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
+            {/* <button
               className="md:hidden p-2 text-gray-600 hover:text-green-600 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
+            </button> */}
+            <Button 
+               className="md:hidden bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"
+                onClick={() => {
+                  setIsMenuOpen(false); 
+                }}
+              >
+                Join Now
+              </Button>
           </div>
 
           {/* Mobile Navigation */}
@@ -77,23 +86,22 @@ export default function Header() {
             `}
           >
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              {navLinks.map(({ id, label }) => (
+              {/* {navLinks.map(({ id, label }) => (
                 <button
                   key={label}
-                  onClick={() => scrollToSection(id)}
+                  // onClick={() => scrollToSection(id)}
                   className="text-gray-600 hover:text-green-600 transition-colors py-2 text-left"
                 >
                   {label}
                 </button>
-              ))}
+              ))} */}
               <Button 
                 className="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"
                 onClick={() => {
-                  setIsMenuOpen(false);
-                  setShowModal(true);
+                  setIsMenuOpen(false); 
                 }}
               >
-                Join Now
+                Join Nowss
               </Button>
             </div>
           </div>
