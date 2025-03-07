@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { UserService } from '@/server/services/user.service';
+import { connectToDatabase } from '@/lib/db';
+import { User } from '@/models/User';
 import { PaymentService } from '@/server/services/payment.service';
+import { sendEmail } from '@/lib/email';
 import { validateEmail, validatePhone, validateName } from '@/server/utils/validation';
 
 export async function POST(request: Request) {
@@ -9,22 +11,13 @@ export async function POST(request: Request) {
     const { name, email, phone } = body;
 
     // Validate input
-    if (!name || !email || !phone) {
-      return NextResponse.json(
-        { error: 'Name, email and phone are required' },
-        { status: 400 }
-      );
-    }
-
-    // Validate name
     if (!validateName(name)) {
       return NextResponse.json(
-        { error: 'Name should be between 2 and 50 characters' },
+        { error: 'Invalid name format' },
         { status: 400 }
       );
     }
 
-    // Validate email
     if (!validateEmail(email)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
@@ -32,7 +25,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate phone
     if (!validatePhone(phone)) {
       return NextResponse.json(
         { error: 'Invalid phone number format' },
@@ -40,42 +32,56 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if user exists
-    const existingUser = await UserService.getUserByEmail(email);
+    // Connect to database
+    await connectToDatabase();
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        { error: 'You have already registered for this webinar' },
+        { error: 'User already registered' },
         { status: 400 }
       );
     }
 
-    // Create user
-    const user = await UserService.createUser({
+    // Create new user
+    const user = await User.create({
       name,
       email,
-      phone
+      phone,
+      courseId: process.env.WEBINAR_COURSE_ID,
+      status: 'pending'
     });
 
     // Create Razorpay order
-    const amount = 599 * 100; // ₹599 in paise
-    const order = await PaymentService.createOrder({
-      amount,
-      userId: user._id!.toString(),
-      courseId: process.env.WEBINAR_COURSE_ID!
+    const amount = 599; // ₹599
+    const order = await PaymentService.createOrder(amount);
+
+    // Send welcome email
+    await sendEmail({
+      to: email,
+      subject: 'Welcome to Mutual Fund Masterclass',
+      html: `
+        <h1>Welcome to Mutual Fund Masterclass!</h1>
+        <p>Dear ${name},</p>
+        <p>Thank you for registering for our Mutual Fund Masterclass. Your registration has been received.</p>
+        <p>Please complete your payment to access the course.</p>
+        <p>Best regards,<br>Mutual Fund Masterclass Team</p>
+      `
     });
 
     return NextResponse.json({
+      success: true,
+      userId: user._id,
+      orderId: order.id,
       key_id: process.env.RAZORPAY_KEY_ID,
       amount: order.amount,
-      currency: 'INR',
-      order_id: order.id,
-      user_id: user._id
+      currency: 'INR'
     });
-
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(
-      { error: 'Registration failed. Please try again.' },
+      { error: 'Registration failed' },
       { status: 500 }
     );
   }

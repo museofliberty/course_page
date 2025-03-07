@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import Button from '../common/Button';
 import { loadRazorpay } from '@/client/utils/razorpay';
+import type { RazorpayOptions, RazorpayResponse } from '@/types/razorpay';
 
 interface PaymentButtonProps {
   amount: number;
@@ -18,81 +18,85 @@ export default function PaymentButton({
   onSuccess,
   onError
 }: PaymentButtonProps) {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handlePayment = async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
+      const Razorpay = await loadRazorpay();
 
-      // Create order
-      const orderResponse = await fetch('/api/v1/payments/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount })
-      });
-
-      const orderData = await orderResponse.json();
-      if (!orderResponse.ok) throw new Error(orderData.error);
-
-      // Load Razorpay
-      const razorpay = await loadRazorpay();
-
-      // Initialize payment
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'Course Platform',
-        description: `Payment for ${courseName}`,
-        order_id: orderData.orderId,
-        handler: async (response: any) => {
+      const options: RazorpayOptions = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
+        amount: amount * 100, // Convert to paise
+        currency: 'INR',
+        name: 'Mutual Fund Masterclass',
+        description: courseName,
+        order_id: '', // Will be set after order creation
+        handler: async (response: RazorpayResponse) => {
           try {
-            // Verify payment
             const verifyResponse = await fetch('/api/v1/payments/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                ...response,
-                userId,
-                amount: orderData.amount,
-                courseName
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                userId
               })
             });
 
-            const verifyData = await verifyResponse.json();
-            if (!verifyResponse.ok) throw new Error(verifyData.error);
+            if (!verifyResponse.ok) {
+              throw new Error('Payment verification failed');
+            }
 
             onSuccess();
           } catch (error) {
-            onError('Payment verification failed');
+            onError(error instanceof Error ? error.message : 'Payment verification failed');
           }
         },
         prefill: {
-          name: 'Student Name',
-          email: 'student@example.com'
+          name: '',
+          email: '',
+          contact: ''
         },
         theme: {
-          color: '#2563EB'
+          color: '#16a34a' // green-600
         }
       };
 
-      const paymentObject = new razorpay(options);
-      paymentObject.open();
+      // Create order
+      const orderResponse = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          courseName
+        })
+      });
 
+      if (!orderResponse.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const { orderId } = await orderResponse.json();
+      options.order_id = orderId;
+
+      const razorpay = new Razorpay(options);
+      razorpay.open();
     } catch (error) {
-      onError(error instanceof Error ? error.message : 'Payment failed');
+      onError(error instanceof Error ? error.message : 'Payment initialization failed');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <Button
+    <button
       onClick={handlePayment}
-      disabled={loading}
-      className="w-full"
+      disabled={isLoading}
+      className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {loading ? 'Processing...' : 'Pay Now'}
-    </Button>
+      {isLoading ? 'Processing...' : 'Pay Now'}
+    </button>
   );
 } 

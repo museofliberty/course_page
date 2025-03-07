@@ -1,19 +1,23 @@
 import { NextResponse } from 'next/server';
+import { connectToDatabase } from '@/lib/db';
+import { User } from '@/models/User';
 import { PaymentService } from '@/server/services/payment.service';
-import { UserService } from '@/server/services/user.service';
-import { EmailService } from '@/server/services/email.service';
+import { sendEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
+    const body = await request.json();
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      userId,
-      amount,
-      courseName
-    } = await request.json();
+      userId
+    } = body;
 
+    // Connect to database
+    await connectToDatabase();
+
+    // Verify payment signature
     const isValid = await PaymentService.verifyPayment(
       razorpay_order_id,
       razorpay_payment_id,
@@ -28,26 +32,30 @@ export async function POST(request: Request) {
     }
 
     // Get user details
-    const user = await UserService.findById(userId);
+    const user = await User.findById(userId);
     if (!user) {
       throw new Error('User not found');
     }
 
-    // Update user status to active
-    await UserService.updateStatus(userId, 'active');
+    // Update user status
+    user.status = 'completed';
+    user.paymentId = razorpay_payment_id;
+    await user.save();
 
-    // Send confirmation email
-    await EmailService.sendPaymentConfirmation(
-      user.email,
-      user.name,
-      courseName,
-      amount / 100 // Convert from paise to rupees
-    );
-
-    return NextResponse.json({
-      message: 'Payment verified successfully'
+    // Send success email
+    await sendEmail({
+      to: user.email,
+      subject: 'Payment Successful - Mutual Fund Masterclass',
+      html: `
+        <h1>Payment Successful!</h1>
+        <p>Dear ${user.name},</p>
+        <p>Thank you for your payment. Your registration for the Mutual Fund Masterclass is now complete.</p>
+        <p>You will receive the course access details shortly.</p>
+        <p>Best regards,<br>Mutual Fund Masterclass Team</p>
+      `
     });
 
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Payment verification error:', error);
     return NextResponse.json(
