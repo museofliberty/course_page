@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { UserService } from '@/server/services/user.service';
+import { connectToDatabase } from '@/lib/db';
+import { User } from '@/models/User';
 import { validateEmail, validatePhone, validateName } from '@/server/utils/validation';
 
 export async function POST(request: Request) {
@@ -39,8 +40,19 @@ export async function POST(request: Request) {
       );
     }
 
+    // Connect to database
+    try {
+      await connectToDatabase();
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return NextResponse.json(
+        { error: 'Database connection failed. Please try again.' },
+        { status: 503 }
+      );
+    }
+
     // Check if user exists
-    const existingUser = await UserService.getUserByEmail(email);
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
         { error: 'Email already registered' },
@@ -49,21 +61,23 @@ export async function POST(request: Request) {
     }
 
     // Create user
-    const result = await UserService.createUser({
+    const user = await User.create({
       name,
       email,
-      phone
+      phone,
+      courseId: 'webinar2025', // Set course ID for the webinar
+      status: 'pending'
     });
 
     return NextResponse.json({
       message: 'Registration successful',
-      userId: result._id
+      userId: user._id
     });
 
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }

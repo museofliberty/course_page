@@ -15,7 +15,15 @@ export async function POST(request: Request) {
     } = body;
 
     // Connect to database
-    await connectToDatabase();
+    try {
+      await connectToDatabase();
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return NextResponse.json(
+        { error: 'Database connection failed. Please try again.' },
+        { status: 503 }
+      );
+    }
 
     // Verify payment signature
     const isValid = await PaymentService.verifyPayment(
@@ -42,8 +50,8 @@ export async function POST(request: Request) {
     user.paymentId = razorpay_payment_id;
     await user.save();
 
-    // Send success email
-    await sendEmail({
+    // Send success email (non-blocking)
+    sendEmail({
       to: user.email,
       subject: 'Payment Successful - Mutual Fund Masterclass',
       html: `
@@ -53,13 +61,16 @@ export async function POST(request: Request) {
         <p>You will receive the course access details shortly.</p>
         <p>Best regards,<br>Mutual Fund Masterclass Team</p>
       `
+    }).catch(error => {
+      console.error('Failed to send success email:', error);
+      // Don't throw error, as email sending is not critical
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Payment verification error:', error);
     return NextResponse.json(
-      { error: 'Payment verification failed' },
+      { error: error instanceof Error ? error.message : 'Payment verification failed' },
       { status: 500 }
     );
   }
