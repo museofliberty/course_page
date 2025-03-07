@@ -8,6 +8,10 @@ export async function connectToDatabase() {
     return;
   }
 
+  if (!config.mongodb.uri) {
+    throw new Error('MongoDB URI is not defined');
+  }
+
   try {
     await mongoose.connect(config.mongodb.uri, {
       ...config.mongodb.options,
