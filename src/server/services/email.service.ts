@@ -22,7 +22,8 @@ export class EmailService {
       from: getEnvVariable('SMTP_FROM'),
       to: email,
       subject: 'Payment Confirmation - Course Platform',
-      html: `
+      hqtml: `
+      /
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2>Thank you for your purchase!</h2>
           <p>Dear ${name},</p>

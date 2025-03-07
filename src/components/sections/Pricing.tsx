@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import Button from '../common/Button';
-import RegistrationModal from '../common/RegistrationModal';
-import PaymentButton from '../payment/PaymentButton';
+import PaymentModal from '../common/PaymentModal';
 
 interface PricingTier {
   name: string;
@@ -101,28 +100,10 @@ function PricingCard({ name, price, description, features, isPopular }: PricingT
         </Button>
       </div>
 
-      <RegistrationModal
+      <PaymentModal
         isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setError('');
-        }}
-        courseName={name}
-        price={price}
-        onSubmit={handleRegistration}
-        isLoading={isLoading}
-        error={error}
-      />
-
-      {userDetails && (
-        <PaymentButton
-          amount={parseInt(price.replace(/,/g, ''))}
-          courseName={name}
-          userId={userDetails.userId}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      )}
+        onClose={() => setShowModal(false)}
+      /> 
     </>
   );
 }

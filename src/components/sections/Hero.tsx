@@ -2,9 +2,9 @@
 import Image from 'next/image';
 import Button from '../common/Button';
 import { useState, useEffect } from 'react';
-import RegistrationModal from '../common/RegistrationModal';
 import PaymentButton from '../payment/PaymentButton';
 import { FaClock, FaCalendar, FaLanguage, FaVideo, FaGift, FaRegClock, FaTag, FaArrowRight } from 'react-icons/fa';
+import PaymentModal from '../common/PaymentModal';
 
 export default function Hero() {
   const [timeLeft, setTimeLeft] = useState({ minutes: 4, seconds: 26 });
@@ -224,28 +224,11 @@ export default function Hero() {
         </div>
       </section>
 
-      <RegistrationModal
+      <PaymentModal
         isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setError('');
-        }}
-        courseName="Mutual Fund Masterclass"
-        price="599"
-        onSubmit={handleRegistration}
-        isLoading={isLoading}
-        error={error}
-      />
-
-      {userDetails && (
-        <PaymentButton
-          amount={599}
-          courseName="Mutual Fund Masterclass"
-          userId={userDetails.userId}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      )}
+        onClose={() => setShowModal(false)}
+      /> 
+ 
     </>
   );
 } 

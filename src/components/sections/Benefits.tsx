@@ -1,8 +1,9 @@
 'use client';
+import React from 'react';
 import Button from '../common/Button';
 import { useState } from 'react';
-import RegistrationModal from '../common/RegistrationModal';
 import PaymentButton from '../payment/PaymentButton';
+import PaymentModal from '../common/PaymentModal';
 
 export default function Benefits() {
   const [showModal, setShowModal] = useState(false);
@@ -169,28 +170,11 @@ export default function Benefits() {
         </div>
       </section>
 
-      <RegistrationModal
-        isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setError('');
-        }}
-        courseName="Mutual Fund Masterclass"
-        price="599"
-        onSubmit={handleRegistration}
-        isLoading={isLoading}
-        error={error}
-      />
 
-      {userDetails && (
-        <PaymentButton
-          amount={599}
-          courseName="Mutual Fund Masterclass"
-          userId={userDetails.userId}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      )}
+<PaymentModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      /> 
     </>
   );
 } 

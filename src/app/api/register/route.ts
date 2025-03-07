@@ -68,20 +68,20 @@ export async function POST(request: Request) {
       const order = await PaymentService.createOrder(599);
       
       // Send welcome email (non-blocking)
-      sendEmail({
-        to: email,
-        subject: 'Welcome to Mutual Fund Masterclass',
-        html: `
-          <h1>Welcome to Mutual Fund Masterclass!</h1>
-          <p>Dear ${name},</p>
-          <p>Thank you for registering for our Mutual Fund Masterclass. Your registration has been received.</p>
-          <p>Please complete your payment to access the course.</p>
-          <p>Best regards,<br>Mutual Fund Masterclass Team</p>
-        `
-      }).catch(error => {
-        console.error('Failed to send welcome email:', error);
-        // Don't throw error, as email sending is not critical
-      });
+      // sendEmail({
+      //   to: email,
+      //   subject: 'Welcome to Mutual Fund Masterclass',
+      //   html: `
+      //     <h1>Welcome to Mutual Fund Masterclass!</h1>
+      //     <p>Dear ${name},</p>
+      //     <p>Thank you for registering for our Mutual Fund Masterclass. Your registration has been received.</p>
+      //     <p>Please complete your payment to access the course.</p>
+      //     <p>Best regards,<br>Mutual Fund Masterclass Team</p>
+      //   `
+      // }).catch(error => {
+      //   console.error('Failed to send welcome email:', error);
+      //   // Don't throw error, as email sending is not critical
+      // });
 
       return NextResponse.json({
         success: true,

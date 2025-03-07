@@ -1,35 +1,34 @@
 'use client';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Shield } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
 
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  courseName: string;
-  price: number;
-  originalPrice?: number;
 }
 
-export default function PaymentModal({ 
-  isOpen, 
-  onClose, 
-  courseName,
-  price,
-  originalPrice
-}: PaymentModalProps) {
+const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
   });
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Clear form data when modal is opened or closed
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+      });
+      setError('');
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   // Load Razorpay SDK
   const loadRazorpay = () => {
@@ -44,71 +43,117 @@ export default function PaymentModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     setLoading(true);
+
+    // Basic validation
+    if (!formData.name || !formData.email || !formData.phone) {
+      setError('Please fill in all fields');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.name.length < 2 || formData.name.length > 50) {
+      setError('Name must be between 2 and 50 characters');
+      setLoading(false);
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      setLoading(false);
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(formData.phone)) {
+      setError('Please enter a valid 10-digit phone number');
+      setLoading(false);
+      return;
+    }
     
     try {
-      // First, register the user
-      const registerResponse = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const registerData = await registerResponse.json();
-      
-      if (!registerResponse.ok) {
-        throw new Error(registerData.error || 'Registration failed');
-      }
-
-      // Then load Razorpay
       const res = await loadRazorpay();
       
       if (!res) {
-        throw new Error('Razorpay SDK failed to load');
+        toast.error('Razorpay SDK failed to load');
+        return;
       }
 
       // Razorpay options
       const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: price * 100, // amount in paisa
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
+        amount: 599 * 100,
         currency: "INR",
         name: "Mutual Fund Masterclass",
-        description: courseName,
+        description: "Webinar Registration",
         prefill: {
           name: formData.name,
           email: formData.email,
           contact: formData.phone,
         },
         theme: {
-          color: "#16a34a" // green-600
+          color: "#16a34a"
         },
         handler: async function(response: any) {
           try {
-            // Verify payment
-            const verifyResponse = await fetch('/api/payment/verify', {
+            // Show payment success message first
+            toast.success(
+              <div className="flex flex-col gap-1">
+                <span className="font-semibold">🎉 Payment Successful!</span>
+                <span className="text-sm">You'll receive course details shortly.</span>
+              </div>,
+              { duration: 3000 }
+            );
+
+            // Close modal after showing success message
+            onClose();
+
+            // Send confirmation email
+            const emailResponse = await fetch('/api/send-confirmation', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                userId: registerData.userId,
-                amount: price,
-                courseName
-              }),
+                name: formData.name,
+                email: formData.email,
+                paymentId: response.razorpay_payment_id,
+                amount: 599
+              })
             });
 
-            if (!verifyResponse.ok) {
-              throw new Error('Payment verification failed');
+            if (!emailResponse.ok) {
+              console.error('Failed to send confirmation email');
+              toast.error('Payment successful but email delivery failed. Please check your spam folder.', {
+                duration: 5000
+              });
+            } else {
+              toast.success('Check your email for confirmation!', {
+                duration: 3000
+              });
             }
 
-            // Handle successful payment
-            console.log("Payment successful", response);
-            toast.success("Payment successful! You'll receive an email with course details.");
-            onClose();
+            // Finally, register user (as last priority)
+            try {
+              const registerResponse = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  ...formData,
+                  paymentId: response.razorpay_payment_id,
+                  courseId: process.env.NEXT_PUBLIC_WEBINAR_COURSE_ID || 'webinar2025'
+                })
+              });
+
+              if (!registerResponse.ok) {
+                console.error('Registration failed:', await registerResponse.text());
+                // Don't show error to user since they already got success message
+              }
+            } catch (registerError) {
+              console.error('Registration error:', registerError);
+              // Don't show error to user since they already got success message
+            }
           } catch (error) {
-            console.error('Payment verification error:', error);
-            toast.error('Payment verification failed');
+            console.error('Payment success handler error:', error);
+            toast.error('Something went wrong. Please contact support.');
           }
         },
         modal: {
@@ -121,15 +166,16 @@ export default function PaymentModal({
         }
       };
 
+      // @ts-ignore
       const razorpay = new window.Razorpay(options);
       razorpay.on('payment.failed', function(resp: any) {
         console.error('Payment failed:', resp.error);
         toast.error('Payment failed. Please try again.');
       });
       razorpay.open();
-    } catch (error: any) {
-      console.error('Error:', error);
-      toast.error(error.message || 'Something went wrong. Please try again.');
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast.error('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -150,7 +196,7 @@ export default function PaymentModal({
 
         {/* Modal Content */}
         <div className="p-6">
-          {/* Header */}
+          {/* Header */}        
           <div className="text-center mb-6">
             <div className="bg-green-50 inline-flex rounded-full p-2 mb-2">
               <Shield className="h-5 w-5 text-green-600" />
@@ -212,17 +258,19 @@ export default function PaymentModal({
               </div>
             </div>
 
+            {error && (
+              <div className="text-red-500 text-sm">{error}</div>
+            )}
+
             {/* Order Summary */}
             <div className="bg-gray-50 p-4 rounded-lg space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-600">{courseName}</span>
-                {originalPrice && (
-                  <span className="text-gray-400 line-through">₹{originalPrice}</span>
-                )}
+                <span className="text-gray-600">Mutual Fund Masterclass</span>
+                <span className="text-gray-400 line-through">₹4,999</span>
               </div>
               <div className="flex justify-between font-medium">
                 <span className="text-green-600">Special Offer Price</span>
-                <span className="text-green-600">₹{price}</span>
+                <span className="text-green-600">₹599</span>
               </div>
             </div>
 
@@ -248,4 +296,6 @@ export default function PaymentModal({
       </div>
     </div>
   );
-} 
+};
+
+export default PaymentModal; 

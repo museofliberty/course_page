@@ -3,8 +3,7 @@ import Button from '../common/Button';
 import Image from 'next/image';
 import { FaCheckCircle, FaQuestionCircle, FaBookOpen, FaClock, FaArrowRight, FaGraduationCap, FaChartLine } from 'react-icons/fa';
 import { useState } from 'react';
-import RegistrationModal from '../common/RegistrationModal';
-import PaymentButton from '../payment/PaymentButton';
+import PaymentModal from '../common/PaymentModal';
 
 interface WebinarFeature {
   title: string;
@@ -310,28 +309,10 @@ export default function Courses() {
         </div>
       </section>
 
-      <RegistrationModal
+      <PaymentModal
         isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setError('');
-        }}
-        courseName="Mutual Fund Masterclass"
-        price="599"
-        onSubmit={handleRegistration}
-        isLoading={isLoading}
-        error={error}
-      />
-
-      {userDetails && (
-        <PaymentButton
-          amount={599}
-          courseName="Mutual Fund Masterclass"
-          userId={userDetails.userId}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      )}
+        onClose={() => setShowModal(false)}
+      /> 
     </>
   );
 } 

@@ -3,53 +3,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Button from '../common/Button';
-import RegistrationModal from '../common/RegistrationModal';
-import PaymentButton from '../payment/PaymentButton';
+import PaymentModal from '../common/PaymentModal';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>('');
-  const [userDetails, setUserDetails] = useState<null | {
-    name: string;
-    email: string;
-    phone: string;
-    userId: string;
-  }>(null);
-
-  const handleRegistration = async (formData: { name: string; email: string; phone: string }) => {
-    try {
-      setIsLoading(true);
-      setError('');
-
-      const response = await fetch('/api/v1/users/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Registration failed');
-
-      setUserDetails({ ...formData, userId: data.userId });
-      setShowModal(false);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Registration failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handlePaymentSuccess = () => {
-    alert('Payment successful! Check your email for course access details.');
-    setUserDetails(null);
-  };
-
-  const handlePaymentError = (error: string) => {
-    setError(error);
-    setShowModal(true);
-  };
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
@@ -151,28 +109,10 @@ export default function Header() {
         )}
       </header>
 
-      <RegistrationModal
+      <PaymentModal
         isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          setError('');
-        }}
-        courseName="Mutual Fund Masterclass"
-        price="599"
-        onSubmit={handleRegistration}
-        isLoading={isLoading}
-        error={error}
-      />
-
-      {userDetails && (
-        <PaymentButton
-          amount={599}
-          courseName="Mutual Fund Masterclass"
-          userId={userDetails.userId}
-          onSuccess={handlePaymentSuccess}
-          onError={handlePaymentError}
-        />
-      )}
+        onClose={() => setShowModal(false)}
+      /> 
     </>
   );
 } 
