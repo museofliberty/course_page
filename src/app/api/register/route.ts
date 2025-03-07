@@ -34,13 +34,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Connect to database with timeout
-    const dbPromise = connectToDatabase();
-    const dbTimeout = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Database connection timeout')), 5000)
-    );
-    
-    await Promise.race([dbPromise, dbTimeout]);
+    // Connect to database
+    try {
+      await connectToDatabase();
+    } catch (dbError) {
+      console.error('Database connection error:', dbError);
+      return NextResponse.json(
+        { error: 'Database connection failed. Please try again.' },
+        { status: 503 }
+      );
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -60,38 +63,43 @@ export async function POST(request: Request) {
       status: 'pending'
     });
 
-    // Create Razorpay order with timeout
-    const orderPromise = PaymentService.createOrder(599);
-    const orderTimeout = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error('Order creation timeout')), 5000)
-    );
-    
-    const order = await Promise.race([orderPromise, orderTimeout]);
+    // Create Razorpay order
+    try {
+      const order = await PaymentService.createOrder(599);
+      
+      // Send welcome email (non-blocking)
+      sendEmail({
+        to: email,
+        subject: 'Welcome to Mutual Fund Masterclass',
+        html: `
+          <h1>Welcome to Mutual Fund Masterclass!</h1>
+          <p>Dear ${name},</p>
+          <p>Thank you for registering for our Mutual Fund Masterclass. Your registration has been received.</p>
+          <p>Please complete your payment to access the course.</p>
+          <p>Best regards,<br>Mutual Fund Masterclass Team</p>
+        `
+      }).catch(error => {
+        console.error('Failed to send welcome email:', error);
+        // Don't throw error, as email sending is not critical
+      });
 
-    // Send welcome email (non-blocking)
-    sendEmail({
-      to: email,
-      subject: 'Welcome to Mutual Fund Masterclass',
-      html: `
-        <h1>Welcome to Mutual Fund Masterclass!</h1>
-        <p>Dear ${name},</p>
-        <p>Thank you for registering for our Mutual Fund Masterclass. Your registration has been received.</p>
-        <p>Please complete your payment to access the course.</p>
-        <p>Best regards,<br>Mutual Fund Masterclass Team</p>
-      `
-    }).catch(error => {
-      console.error('Failed to send welcome email:', error);
-      // Don't throw error, as email sending is not critical
-    });
-
-    return NextResponse.json({
-      success: true,
-      userId: user._id,
-      orderId: order.id,
-      key_id: process.env.RAZORPAY_KEY_ID,
-      amount: order.amount,
-      currency: 'INR'
-    });
+      return NextResponse.json({
+        success: true,
+        userId: user._id,
+        orderId: order.id,
+        key_id: process.env.RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: 'INR'
+      });
+    } catch (paymentError) {
+      console.error('Payment service error:', paymentError);
+      // Update user status to failed
+      await User.findByIdAndUpdate(user._id, { status: 'failed' });
+      return NextResponse.json(
+        { error: 'Payment service error. Please try again.' },
+        { status: 503 }
+      );
+    }
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

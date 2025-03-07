@@ -1,47 +1,23 @@
 import mongoose from 'mongoose';
+import { config } from '@/config/env';
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
-}
-
-interface Cached {
-  conn: typeof mongoose | null;
-  promise: Promise<typeof mongoose> | null;
-}
-
-declare global {
-  var mongoose: Cached | undefined;
-}
-
-let cached: Cached = global.mongoose || { conn: null, promise: null };
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+let isConnected = false;
 
 export async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-    };
-
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      return mongoose;
-    });
+  if (isConnected) {
+    return;
   }
 
   try {
-    cached.conn = await cached.promise;
-  } catch (e) {
-    cached.promise = null;
-    throw e;
+    await mongoose.connect(config.mongodb.uri, {
+      ...config.mongodb.options,
+      dbName: config.mongodb.dbName,
+    });
+    isConnected = true;
+    console.log(`Connected to MongoDB in ${process.env.NODE_ENV} mode`);
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    isConnected = false;
+    throw error;
   }
-
-  return cached.conn;
 } 
