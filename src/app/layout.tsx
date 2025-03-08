@@ -8,7 +8,7 @@ import { Toaster } from 'react-hot-toast';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Learnn - Financial Education Platform",
+  title: "MarketVisa",
   description: "Transform your financial future with expert-led courses",
 };
 

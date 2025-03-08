@@ -136,7 +136,7 @@ export default function Courses() {
       <section className="py-12 sm:py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Why Choose Us?</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Why Join This Webinar?</h2>
             {/* <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent mb-3 sm:mb-4">
               Master Mutual Fund Investing
             </p>
@@ -231,7 +231,7 @@ export default function Courses() {
           <div className="mb-12 sm:mb-16">
             <div className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-                All Your Mutual Fund Doubts Sorted in 2-3 Hours
+                Get Your Mutual Fund Related Doubts Sorted in 2-3 Hours
               </h2>
               {/* <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
                 Get clear answers to the most common questions about mutual fund investing
@@ -266,48 +266,18 @@ export default function Courses() {
               ))}
             </div>
           </div>
-
-          {/* Pricing Card */}
-          <div className="mt-16 max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="bg-green-600 text-white p-6 text-center">
-              <h3 className="text-2xl font-bold mb-2">Special Launch Offer</h3>
-              <p className="opacity-90">Limited Time Only</p>
-            </div>
-            <div className="p-6">
-              <div className="flex justify-center items-center gap-4 mb-6">
-                <span className="text-4xl font-bold text-green-600">₹599</span>
-                <span className="text-xl text-gray-500 line-through">₹2000</span>
-                <span className="bg-yellow-100 text-yellow-800 text-sm font-semibold px-2.5 py-0.5 rounded">
-                  70% OFF
-                </span>
-              </div>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span>
-                  <span>Live Interactive Session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span>
-                  <span>Q&A Session</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span>
-                  <span>Session Recording Access</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-600">✓</span>
-                  <span>Exclusive Study Materials</span>
-                </li>
-              </ul>
-              <Button 
-                variant="primary" 
-                className="w-full hover:shadow-lg transition-shadow text-lg py-4"
-                onClick={() => setShowModal(true)}
-              >
-                BOOK YOUR SLOT NOW
-              </Button>
-            </div>
+          <div  className="flex justify-center">
+          <Button 
+                  variant="primary"
+                  size="lg"
+                  onClick={() => setShowModal(true)}
+                  className="w-full md:w-auto px-12 py-4 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2 bg-[#00D066]"
+                >
+                  Book your slot and get one of our premium paid features for free.
+                  <FaArrowRight className="w-4 h-4" />
+                </Button>
           </div>
+         
         </div>
       </section>
 
