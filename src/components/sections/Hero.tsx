@@ -1,7 +1,8 @@
 'use client';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { X, Shield } from 'lucide-react';
 import Button from '../common/Button';
-import { useState, useEffect } from 'react';
 import PaymentButton from '../payment/PaymentButton';
 import { FaClock, FaCalendar, FaLanguage, FaVideo, FaGift, FaRegClock, FaTag, FaArrowRight } from 'react-icons/fa';
 import PaymentModal from '../common/PaymentModal';
@@ -77,29 +78,22 @@ export default function Hero() {
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
               {/* Left Content */}
               <div className="w-full lg:w-1/2 text-left space-y-6">
-                {/* Small heading above main title */}
-                {/* <p className="text-gray-600 text-lg">
-                  Wealth Creation Simplified for the Common Man!
-                </p> */}
-
                 {/* Main heading with mixed colors */}
                 <div className="space-y-1">
                   <h1 className="text-3xl lg:text-4xl font-bold">
                     <span className="text-[#00D066]">Unlock</span> Smart Investing
                   </h1>
                   <h1 className="text-3xl lg:text-4xl font-bold">
-                  Secrets Through  Top 
+                    Secrets Through Top
                   </h1>
                   <h1 className="text-3xl lg:text-4xl font-bold">
-                   <span className="text-[#00D066]">Mutual Funds</span> – Live Webinar
+                    <span className="text-[#00D066]">Mutual Funds</span> – Live Webinar
                   </h1>
-                 
                 </div>
 
                 {/* Subheading */}
                 <p className="text-gray-600 text-lg max-w-xl">
-                  Transform Your Financial Future with India's Leading Finance Educator: 
-                  <span className="font-semibold text-gray-800"> Nithin</span>
+                  Learn How To Maximize Your Mutual Fund Returns, Avoid Common Investment Mistakes & Build Long-Term Wealth
                 </p>
 
                 {/* CTA Button */}
@@ -132,27 +126,37 @@ export default function Hero() {
 
               {/* Right Image */}
               <div className="w-full lg:w-1/2">
-                <div className="relative w-full max-w-[500px] mx-auto">
-                  <div className="relative aspect-square">
+                <div className="relative">
+                  <div className="relative w-full aspect-square max-w-[350px] sm:max-w-[450px] mx-auto">
                     <Image
-                      src="/avatarImages/heroImg1.png"
-                      alt="Finance Educator"
+                      src="/avatarImages/mentor.png"
+                      alt="Nithin - Finance Educator"
                       fill
                       style={{ objectFit: 'contain' }}
                       className="z-10"
                       priority
                     />
-                    {/* Background circle */}
-                    <div className="absolute inset-0 bg-[#E8F5E9] rounded-full z-0"></div>
-                    {/* Decorative elements */}
-                    <div className="absolute top-4 right-4 w-20 h-20 bg-yellow-100/50 rounded-full"></div>
-                    <div className="absolute bottom-4 left-4 w-16 h-16 bg-green-100/50 rounded-full"></div>
-                    {/* Chart icon */}
-                    {/* <div className="absolute top-8 right-8 bg-white p-2 rounded-lg shadow-md z-20">
-                      <svg className="w-6 h-6 text-[#00D066]" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                      </svg>
-                    </div> */}
+                    <div className="absolute inset-0 bg-green-100 rounded-full z-0 transform -translate-x-3 translate-y-3 sm:-translate-x-4 sm:translate-y-4"></div>
+                  </div>
+                  
+                  {/* Instructor Details Card */}
+                  <div className="absolute bottom-0 right-0 sm:bottom-[-35px] sm:right-[20px] lg:right-[-40px] bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 sm:p-3 max-w-[210px] sm:max-w-[240px] z-20">
+                    <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">One of Kerala's leading finance educator</p>
+                    <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3">Nithin</h3>
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-[#00D066] rounded-full"></div>
+                        <p className="text-xs sm:text-sm text-gray-600">Co-founder of Marketvisa</p>
+                      </div>
+                      {/* <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-[#00D066] rounded-full"></div>
+                        <p className="text-xs sm:text-sm text-gray-600">AMFI-registered Mutual fund advisor</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-[#00D066] rounded-full"></div>
+                        <p className="text-xs sm:text-sm text-gray-600">NISM-certified Research Analyst</p>
+                      </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -253,8 +257,7 @@ export default function Hero() {
       <PaymentModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-      /> 
- 
+      />
     </>
   );
 } 

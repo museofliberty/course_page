@@ -13,23 +13,23 @@ interface WebinarFeature {
 
 const features: WebinarFeature[] = [
   {
-    title: "Live Interactive Session",
-    description: "2-3 hours of comprehensive mutual fund education with real-time doubt clearing",
+    title: "Anyone determined to take control of their financial future",
+    description: "",
     icon: "🎯"
   },
   {
-    title: "Expert Guidance",
-    description: "Learn from AMFI-registered Mutual Fund Advisor with 7+ years of experience",
+    title: "Anyone planning for early retirement by achieving financial freedom",
+    description: "",
     icon: "👨‍🏫"
   },
   {
-    title: "Practical Knowledge",
-    description: "Real-world strategies and case studies from managing 10Cr+ investments",
+    title: "You want to achieve financial goals—car, house, or vacation with mutual fund investing",
+    description: "",
     icon: "📊"
   },
   {
-    title: "Malayalam Medium",
-    description: "Learn complex financial concepts in your native language for better understanding",
+    title: " You want to beat inflation and grow your wealth stress-free",
+    description: "",
     icon: "🗣️"
   }
 ];
@@ -134,13 +134,13 @@ export default function Courses() {
       <section className="py-12 sm:py-16 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Exclusive Live Webinar</h2>
-            <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent mb-3 sm:mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">Why Choose Us?</h2>
+            {/* <p className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-green-600 to-green-500 bg-clip-text text-transparent mb-3 sm:mb-4">
               Master Mutual Fund Investing
             </p>
             <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
               Join us for an intensive masterclass where we cover everything you need to know about mutual fund investing
-            </p>
+            </p> */}
           </div>
 
           {/* Features Grid */}
@@ -162,9 +162,9 @@ export default function Courses() {
               <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
                 What You Will Learn in This Mutual Fund Masterclass
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg">
+              {/* <p className="text-gray-600 text-base sm:text-lg">
                 Master the essentials of mutual fund investing through our comprehensive curriculum
-              </p>
+              </p> */}
               <div className="w-16 sm:w-20 h-1 bg-[#00D066] mx-auto rounded-full mt-3 sm:mt-4"></div>
             </div>
 
@@ -231,9 +231,9 @@ export default function Courses() {
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
                 All Your Mutual Fund Doubts Sorted in 2-3 Hours
               </h2>
-              <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+              {/* <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
                 Get clear answers to the most common questions about mutual fund investing
-              </p>
+              </p> */}
               <div className="w-16 sm:w-20 h-1 bg-[#00D066] mx-auto rounded-full mt-3 sm:mt-4"></div>
             </div>
 

@@ -8,8 +8,8 @@ export default function Home() {
     <main>
       <Hero />
       <Courses />
-      <WhyChooseUs />
-      <Mentor />
+      {/* <WhyChooseUs /> */}
+      {/* <Mentor /> */}
     </main>
   );
 }
