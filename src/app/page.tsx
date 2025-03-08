@@ -5,7 +5,7 @@ import Mentor from '@/components/sections/Mentor';
 
 export default function Home() {
   return (
-    <main className='pb-2.5'>
+    <main>
       <Hero />
       <Courses />
       {/* <WhyChooseUs /> */}

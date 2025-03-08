@@ -21,7 +21,7 @@ export class EmailService {
     const mailOptions = {
       from: getEnvVariable('SMTP_FROM'),
       to: email,
-      subject: 'Payment Confirmation - Course Platform',
+      subject: 'Payment Confirmation - MK VISA FINANCIAL SOLUTIONS LLP',
       hqtml: `
       /
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -45,7 +45,7 @@ export class EmailService {
           <p style="margin-top: 30px;">
             If you have any questions, please don't hesitate to contact our support team.
           </p>
-          <p>Best regards,<br>Course Platform Team</p>
+          <p>Best regards,<br>MK VISA FINANCIAL SOLUTIONS LLP</p>
         </div>
       `
     };
