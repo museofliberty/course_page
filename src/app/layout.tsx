@@ -4,11 +4,12 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/sections/Footer";
 import { Toaster } from 'react-hot-toast';
+import MarqueeBanner from "@/components/common/MarqueeBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Learnn - Financial Education Platform",
+  title: "MarketVisa",
   description: "Transform your financial future with expert-led courses",
 };
 
@@ -23,11 +24,13 @@ export default function RootLayout({
         <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
       </head>
       <body className={inter.className}>
-        <Header />
+      <MarqueeBanner />
         <main className="min-h-screen pt-16">
           {children}
         </main>
-        <Footer />
+       
+        {/* <Footer /> */}
+        <Header />
         <Toaster position="top-center" />
       </body>
     </html>

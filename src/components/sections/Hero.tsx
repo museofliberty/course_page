@@ -6,9 +6,10 @@ import Button from '../common/Button';
 import PaymentButton from '../payment/PaymentButton';
 import { FaClock, FaCalendar, FaLanguage, FaVideo, FaGift, FaRegClock, FaTag, FaArrowRight } from 'react-icons/fa';
 import PaymentModal from '../common/PaymentModal';
+import WhyChooseUs from './WhyChooseUs';
 
 export default function Hero() {
-  const [timeLeft, setTimeLeft] = useState({ minutes: 4, seconds: 26 });
+  const [timeLeft, setTimeLeft] = useState({ minutes: 9, seconds: 59 });
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
@@ -72,7 +73,7 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative py-8 lg:py-16 overflow-hidden">
+      <section className="relative py-8 lg:py-1 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
@@ -92,23 +93,32 @@ export default function Hero() {
                 </div>
 
                 {/* Subheading */}
-                <p className="text-gray-600 text-lg max-w-xl">
-                  Learn How To Maximize Your Mutual Fund Returns, Avoid Common Investment Mistakes & Build Long-Term Wealth
-                </p>
+               
+                <div className="space-y-1">
+                  <h1 className="text-1xl lg:text-1xl font-bold">
+                  Learn How To Maximize Your <span className="text-[#00D066]"> Mutual Fund Returns</span>,
+                  Avoid Common Investment Mistakes &&nbsp;
+                  <span className="text-[#00D066]">Build Long-Term Wealth</span>
+                  </h1>
+                
+                  <h1 className="text-1xl lg:text-1xl font-bold">
+                  
+                  </h1>
+                </div>
 
                 {/* CTA Button */}
-                <div className="flex items-center gap-4">
+                {/* <div className="flex items-center gap-4">
                   <Button 
                     variant="primary"
                     className="px-8 py-3 text-base bg-[#00D066] hover:bg-[#00B056] rounded-md"
                     onClick={() => setShowModal(true)}
                   >
-                    Join Now
+                    
                   </Button>
-                </div>
+                </div> */}
 
                 {/* Stats in a row */}
-                <div className="grid grid-cols-3 gap-6 mt-8">
+                {/* <div className="grid grid-cols-3 gap-6 mt-8">
                   <div>
                     <h3 className="text-2xl font-bold text-[#00D066]">1000+</h3>
                     <p className="text-gray-600 text-sm">Students Trained</p>
@@ -121,7 +131,7 @@ export default function Hero() {
                     <h3 className="text-2xl font-bold text-[#00D066]">7+</h3>
                     <p className="text-gray-600 text-sm">Years Experience</p>
                   </div>
-                </div>
+                </div> */}
               </div>
 
               {/* Right Image */}
@@ -198,21 +208,23 @@ export default function Hero() {
                 <p className="text-gray-600">Live on Zoom</p>
               </div>
             </div>
+                 <WhyChooseUs />
+
 
             {/* Price and CTA Section */}
             <div className="bg-white p-8 rounded-xl shadow-lg">
-              <div className="text-center mb-8">
+              {/* <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
                   Limited Time Special Offer
                 </h3>
                 <p className="text-gray-600">
                   Secure your spot now and start your investment journey
                 </p>
-              </div>
+              </div> */}
 
-              <div className="flex flex-col items-center space-y-6">
+              {/* <div className="flex flex-col items-center space-y-6"> */}
                 {/* Price Display */}
-                <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl w-full">
+                {/* <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl w-full">
                   <div className="flex items-center justify-center gap-4">
                     <div className="flex items-center gap-3">
                       <FaTag className="w-6 h-6 text-[#00D066]" />
@@ -226,29 +238,29 @@ export default function Hero() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Timer Display */}
-                <div className="w-full">
+                {/* <div className="w-full">
                   <div className="flex items-center justify-center gap-2 text-red-600">
                     <FaRegClock className="w-5 h-5" />
                     <p className="font-semibold text-lg">
                       Offer ends in {timeLeft.minutes}:{timeLeft.seconds.toString().padStart(2, '0')} minutes
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 {/* CTA Button */}
-                <Button 
+                {/* <Button 
                   variant="primary"
                   size="lg"
                   onClick={() => setShowModal(true)}
                   className="w-full md:w-auto px-12 py-4 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center justify-center gap-2 bg-[#00D066]"
                 >
-                  SECURE YOUR SEAT NOW
+                  Book Now
                   <FaArrowRight className="w-4 h-4" />
-                </Button>
-              </div>
+                </Button> */}
+              {/* </div> */}
             </div>
           </div>
         </div>
