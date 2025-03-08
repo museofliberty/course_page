@@ -73,7 +73,7 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative py-8 lg:py-16 overflow-hidden">
+      <section className="relative py-8 lg:py-1 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
@@ -96,11 +96,13 @@ export default function Hero() {
                
                 <div className="space-y-1">
                   <h1 className="text-1xl lg:text-1xl font-bold">
-                  Learn How To Maximize Your <span className="text-[#00D066]"> Mutual Fund Returns</span> 
+                  Learn How To Maximize Your <span className="text-[#00D066]"> Mutual Fund Returns</span>,
+                  Avoid Common Investment Mistakes &&nbsp;
+                  <span className="text-[#00D066]">Build Long-Term Wealth</span>
                   </h1>
                 
                   <h1 className="text-1xl lg:text-1xl font-bold">
-                    <span className="text-[#00D066]"> Avoid Common Investment </span> – Mistakes & Build Long-Term Wealth
+                  
                   </h1>
                 </div>
 

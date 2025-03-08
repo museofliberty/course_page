@@ -29,39 +29,39 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm">
+      <header className="fixed bottom-0 left-0 right-0 z-50 bg-white shadow-sm">
         <nav className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-green-600">
-            Marketvisa
-          </Link>
+       
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-          <div className="p-2 rounded-lg flex flex-col items-start gap-1">
-  <div className="flex items-center gap-1">
-    <FaTag className="w-4 h-4 text-[#00D066]" />
-    <span className="text-xl font-bold text-[#00D066]">₹599</span> <span className="text-xs text-gray-400 line-through">₹2000</span>
-  <span className="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-    <FaGift className="w-3 h-3" /> 70% OFF
-  </span>
+          <div className="hidden md:flex items-center justify-around w-full space-x-4">
+  <div className="p-2 rounded-lg flex flex-col items-start gap-1">
+    <div className="flex items-center gap-1">
+      <FaTag className="w-4 h-4 text-[#00D066]" />
+      <span className="text-xl font-bold text-[#00D066]">₹599</span>
+      <span className="text-xs text-gray-400 line-through">₹2000</span>
+      <span className="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
+        <FaGift className="w-3 h-3" /> 70% OFF
+      </span>
+    </div>
+
+    <div className="flex items-center gap-1 text-red-600 text-xs font-medium">
+      <FaRegClock className="w-3 h-3" />
+      <p>Ends in {timeLeft.minutes}:{timeLeft.seconds.toString().padStart(2, '0')} min</p>
+    </div>
   </div>
- 
-  <div className="flex items-center gap-1 text-red-600 text-xs font-medium">
-    <FaRegClock className="w-3 h-3" />
-    <p>Ends in {timeLeft.minutes}:{timeLeft.seconds.toString().padStart(2, '0')} min</p>
-  </div>
+
+  <Button 
+    onClick={() => setShowModal(true)}
+    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 text-xs rounded"
+  >
+    Book Now
+  </Button>
 </div>
-         
-            <Button 
-              onClick={() => setShowModal(true)}
-              className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 text-xs rounded"
-            >
-              Book Now
-            </Button>
-          </div>
+
 
           {/* Mobile Button */}
-          <div className="flex items-center justify-between md:hidden p-2">
+          <div className="flex items-center justify-between w-full md:hidden p-2">
   <div className="flex flex-col space-y-0.5 mr-2">
     <div className="flex items-center gap-1">
       <FaTag className="w-2.5 h-2.5 text-[#00D066]" />
@@ -95,12 +95,6 @@ export default function Header() {
 
 
 
-          {/* <Button 
-            className="md:hidden bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md"
-            onClick={() => setShowModal(true)}
-          >
-            Join Now
-          </Button> */}
         </nav>
       </header>
 
