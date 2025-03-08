@@ -38,17 +38,19 @@ const learningOutcomes = [
   {
     title: 'Portfolio Management',
     points: [
-      'How to manage your mutual fund portfolio effectively',
-      'How to diversify mutual funds based on risk profile',
-      'How to achieve your financial goals through strategic investing'
+      'How to manage your mutual fund portfolio',
+      'Which mutual funds to invest in for safe returns',
+      'How to tackle any market corrections or crashes during investing',
+      "How to diversify mutual funds based on your risk profile and financial goals"
     ]
   },
   {
     title: 'Investment Strategies',
     points: [
-      'How to leverage SIP, BWP, and STP in mutual funds',
-      'Which mutual funds to invest in for safe returns',
-      'How to tackle market corrections or crashes'
+      'How to achieve your financial goals through mutual fund investing',
+      'How to leverage SIP, SWP, and STP in mutual funds',
+      "How does compounding help to double your returns",
+      'How to avoid common mistakes while investing in mutual funds'
     ]
   }
 ];
@@ -181,12 +183,12 @@ export default function Courses() {
                       <FaChartLine className="text-white text-2xl sm:text-3xl flex-shrink-0 group-hover:scale-110 transition-transform" />
                     )}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:translate-x-2 transition-transform">
+                      {/* <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:translate-x-2 transition-transform">
                         {category.title}
-                      </h3>
-                      <p className="text-green-100 mt-0.5 sm:mt-1 text-xs sm:text-sm">
+                      </h3> */}
+                      {/* <p className="text-green-100 mt-0.5 sm:mt-1 text-xs sm:text-sm">
                         {idx === 0 ? 'Master portfolio management techniques' : 'Learn advanced investment strategies'}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <div className="p-4 sm:p-8">
@@ -203,14 +205,14 @@ export default function Courses() {
                             <p className="text-sm sm:text-base text-gray-700 leading-relaxed group-hover/item:text-gray-900 transition-colors">
                               {point}
                             </p>
-                            <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1 group-hover/item:text-gray-600 transition-colors">
+                            {/* <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1 group-hover/item:text-gray-600 transition-colors">
                               {index === 0 ? 'Core Concept' : index === 1 ? 'Essential Strategy' : 'Advanced Technique'}
-                            </p>
+                            </p> */}
                           </div>
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-6 sm:mt-8 text-center">
+                    {/* <div className="mt-6 sm:mt-8 text-center">
                       <a 
                         href="#join"
                         className="inline-flex items-center gap-2 text-green-600 font-medium hover:text-green-700 text-sm sm:text-base group/link"
@@ -218,7 +220,7 @@ export default function Courses() {
                         Learn More 
                         <FaArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}
