@@ -266,7 +266,7 @@ export default function Courses() {
               ))}
             </div>
           </div>
-          <div  className="flex justify-center">
+          <div  className="flex justify-center mb-15">
           <Button 
                   variant="primary"
                   size="lg"
