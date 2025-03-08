@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
       <MarqueeBanner />
-        <main className="min-h-screen pt-16">
+        <main className="min-h-screen pt-1">
           {children}
         </main>
        

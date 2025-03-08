@@ -38,14 +38,14 @@ export default function Header() {
   <div className="p-2 rounded-lg flex flex-col items-start gap-1">
     <div className="flex items-center gap-1">
       <FaTag className="w-4 h-4 text-[#00D066]" />
-      <span className="text-xl font-bold text-[#00D066]">₹599</span>
-      <span className="text-xs text-gray-400 line-through">₹2000</span>
-      <span className="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
+      <span className="text-2xl font-bold text-[#00D066]">₹599</span> {/* Increased font size */}
+      <span className="text-sm text-gray-400 line-through">₹2000</span> {/* Increased font size */}
+      <span className="bg-yellow-100 text-yellow-800 text-sm font-bold px-2 py-0.5 rounded flex items-center gap-1"> {/* Increased font size */}
         <FaGift className="w-3 h-3" /> 70% OFF
       </span>
     </div>
 
-    <div className="flex items-center gap-1 text-red-600 text-xs font-medium">
+    <div className="flex items-center gap-1 text-red-600 text-sm font-medium"> {/* Increased font size */}
       <FaRegClock className="w-3 h-3" />
       <p>Ends in {timeLeft.minutes}:{timeLeft.seconds.toString().padStart(2, '0')} min</p>
     </div>
@@ -53,7 +53,7 @@ export default function Header() {
 
   <Button 
     onClick={() => setShowModal(true)}
-    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 text-xs rounded"
+    className="bg-green-600 hover:bg-green-700 text-white px-4 py-1 text-md rounded"
   >
     Book Now
   </Button>
@@ -65,16 +65,16 @@ export default function Header() {
   <div className="flex flex-col space-y-0.5 mr-2">
     <div className="flex items-center gap-1">
       <FaTag className="w-2.5 h-2.5 text-[#00D066]" />
-      <span className="text-[10px] font-bold text-[#00D066]">₹599</span>
+      <span className="text-[25px] font-bold text-[#00D066]">₹599</span>
       <div className="flex items-center gap-1">
-      <span className="text-[8px] text-gray-400 line-through">₹2000</span>
-      <span className="bg-yellow-100 text-yellow-800 text-[7px] font-bold px-1 py-0.5 rounded flex items-center gap-1">
+      <span className="text-[12px] text-gray-400 line-through">₹2000</span>
+      <span className="bg-yellow-100 text-yellow-800 text-[12px] font-bold px-1 py-0.5 rounded flex items-center gap-1">
         <FaGift className="w-2.5 h-2.5" /> 70% OFF
       </span>
     </div>
     </div>
     
-    <div className="flex items-center gap-1 text-red-600 text-[8px] font-medium">
+    <div className="flex items-center gap-1 text-red-600 text-[12px] font-medium">
       <FaRegClock className="w-2.5 h-2.5" />
       <p>
         Ends in {timeLeft.minutes}:
@@ -84,7 +84,7 @@ export default function Header() {
   </div>
 
   <Button 
-    className="bg-green-600 hover:bg-green-700 text-white text-[9px] px-2 py-1 rounded"
+    className="bg-green-600 hover:bg-green-700 text-white text-[12px] px-2 py-1 rounded"
     onClick={() => setShowModal(true)}
   >
     Book Now

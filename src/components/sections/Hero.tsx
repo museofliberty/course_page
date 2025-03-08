@@ -150,7 +150,7 @@ export default function Hero() {
                   </div>
                   
                   {/* Instructor Details Card */}
-                  <div className="absolute bottom-0 right-0 sm:bottom-[-35px] sm:right-[20px] lg:right-[-40px] bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 sm:p-3 max-w-[210px] sm:max-w-[240px] z-20">
+                  <div className="absolute bottom-0 right-0 sm:bottom-[-35px] sm:right-[20px] lg:right-[-40px] lg:bottom-[20px] bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-3 sm:p-3 max-w-[210px] sm:max-w-[240px] z-20">
                     <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">One of Kerala's leading finance educator</p>
                     <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3">Nithin</h3>
                     <div className="space-y-1.5 sm:space-y-2">

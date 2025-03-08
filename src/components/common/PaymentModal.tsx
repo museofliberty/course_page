@@ -82,10 +82,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
       // Razorpay options
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '',
-        amount: 599 * 100,
+        amount: 1 * 100,
         currency: "INR",
-        name: "Mutual Fund Masterclass",
-        description: "Webinar Registration",
+        name: "MK VISA FINANCIAL SOLUTIONS LLP",
+        description: "Mutual Fund Masterclass Webinar By Nithin",
         prefill: {
           name: formData.name,
           email: formData.email,
@@ -116,7 +116,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
                 name: formData.name,
                 email: formData.email,
                 paymentId: response.razorpay_payment_id,
-                amount: 599
+                amount: 1
               })
             });
 
